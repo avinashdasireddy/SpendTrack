@@ -1,0 +1,6 @@
+{
+  "name": "SpendTrack — Personal Expense Tracker",
+  "description": "Track daily expenses, understand where your money goes, and monitor your total spending.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

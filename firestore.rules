@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny all access across the database
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Strict user-ownership boundary by Firebase Auth UID
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Isolated expenses subcollection
+      match /expenses/{expenseId} {
+        // Only authenticated user can read their own expenses
+        allow read: if request.auth != null && request.auth.uid == userId;
+
+        // Only authenticated user can create an expense for their own UID with valid schema
+        allow create: if request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0
+          && request.resource.data.reason is string
+          && request.resource.data.reason.size() > 0
+          && request.resource.data.category is string;
+
+        // Only authenticated user can update their own expense without modifying ownership
+        allow update: if request.auth != null
+          && request.auth.uid == userId
+          && resource.data.userId == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0;
+
+        // Only authenticated user can delete their own expense
+        allow delete: if request.auth != null
+          && request.auth.uid == userId
+          && resource.data.userId == userId;
+      }
+    }
+  }
+}

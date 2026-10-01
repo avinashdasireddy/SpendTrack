@@ -1,0 +1,18 @@
+{
+  "name": "SpendTrack — Personal Expense Tracker",
+  "short_name": "SpendTrack",
+  "description": "Track daily expenses, understand where your money goes, and monitor your total spending.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#09090b",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
